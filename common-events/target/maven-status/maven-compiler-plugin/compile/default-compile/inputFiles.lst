@@ -1,0 +1,8 @@
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/common-events/src/main/java/com/snehal/sso/events/BaseEvent.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/common-events/src/main/java/com/snehal/sso/events/EventType.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/common-events/src/main/java/com/snehal/sso/events/LoginPayload.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/common-events/src/main/java/com/snehal/sso/events/MfaPayload.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/common-events/src/main/java/com/snehal/sso/events/NotificationCommand.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/common-events/src/main/java/com/snehal/sso/events/PasswordResetPayload.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/common-events/src/main/java/com/snehal/sso/events/RoleUpdatedPayload.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/common-events/src/main/java/com/snehal/sso/events/UserRegisteredPayload.java

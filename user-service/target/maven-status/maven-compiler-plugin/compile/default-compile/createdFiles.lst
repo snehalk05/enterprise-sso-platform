@@ -1,0 +1,8 @@
+com/snehal/sso/user/UserServiceApplication.class
+com/snehal/sso/user/dto/ProfileUpdateRequest.class
+com/snehal/sso/user/repo/UserProfileRepository.class
+com/snehal/sso/user/controller/UserController.class
+com/snehal/sso/user/dto/UserProfileView.class
+com/snehal/sso/user/domain/UserProfile.class
+com/snehal/sso/user/dto/AuthUserSummary.class
+com/snehal/sso/user/client/AuthServiceClient.class

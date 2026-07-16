@@ -1,0 +1,2 @@
+com/snehal/sso/gateway/ApiGatewayApplication.class
+com/snehal/sso/gateway/filter/JwtGatewayFilter.class

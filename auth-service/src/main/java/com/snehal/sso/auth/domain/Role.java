@@ -1,0 +1,3 @@
+package com.snehal.sso.auth.domain;
+
+public enum Role {SUPER_ADMIN, ADMIN, MANAGER, USER}

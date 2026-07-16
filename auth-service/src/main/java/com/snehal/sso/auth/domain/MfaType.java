@@ -1,0 +1,3 @@
+package com.snehal.sso.auth.domain;
+
+public enum MfaType {NONE, SMS_OTP, TOTP, SECURITY_QUESTIONS}

@@ -1,0 +1,121 @@
+package com.snehal.sso.auth.service;
+
+import com.snehal.sso.auth.domain.MfaType;
+import com.snehal.sso.auth.domain.RefreshToken;
+import com.snehal.sso.auth.domain.Role;
+import com.snehal.sso.auth.domain.UserAccount;
+import com.snehal.sso.auth.dto.*;
+import com.snehal.sso.auth.repository.RefreshTokenRepository;
+import com.snehal.sso.auth.repository.UserAccountRepository;
+import com.snehal.sso.events.*;
+import com.snehal.sso.exceptions.BusinessException;
+import com.snehal.sso.exceptions.NotFoundException;
+import com.snehal.sso.exceptions.UnauthorizedException;
+import com.snehal.sso.security.JwtService;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Base64;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+@Service
+public class AuthService {
+    private final UserAccountRepository users;
+    private final RefreshTokenRepository refresh;
+    private final PasswordEncoder encoder;
+    private final JwtService jwt;
+    private final EventPublisher publisher;
+
+    public AuthService(UserAccountRepository users, RefreshTokenRepository refresh, PasswordEncoder encoder, JwtService jwt, EventPublisher publisher) {
+        this.users = users;
+        this.refresh = refresh;
+        this.encoder = encoder;
+        this.jwt = jwt;
+        this.publisher = publisher;
+    }
+
+    public void register(RegisterRequest r) {
+        if (users.findByEmail(r.email()).isPresent()) throw new BusinessException("Email already registered");
+        UserAccount u = new UserAccount();
+        u.username = r.username();
+        u.email = r.email().toLowerCase();
+        u.passwordHash = encoder.encode(r.password());
+        u.emailVerificationToken = UUID.randomUUID().toString();
+        users.save(u);
+            publisher.event(BaseEvent.of(EventType.USER_REGISTERED, u.id, "", new UserRegisteredPayload(u.id, u.username, u.email)));
+        publisher.notification(new NotificationCommand(UUID.randomUUID().toString(), "EMAIL", u.email, "welcome", "Welcome", "Welcome to Enterprise SSO Platform", ""));
+    }
+
+    public AuthResponse login(LoginRequest r) {
+        UserAccount u = users.findByEmail(r.email().toLowerCase()).orElseThrow(() -> new UnauthorizedException("Invalid credentials"));
+        if (u.locked && u.lockUntil != null && u.lockUntil.isAfter(Instant.now()))
+            throw new BusinessException("Account is temporarily locked");
+        if (!encoder.matches(r.password(), u.passwordHash)) {
+            u.failedLoginAttempts++;
+            if (u.failedLoginAttempts >= 5) {
+                u.locked = true;
+                u.lockUntil = Instant.now().plus(Duration.ofMinutes(15));
+                publisher.event(BaseEvent.of(EventType.ACCOUNT_LOCKED, u.id, "", new LoginPayload(u.id, u.email, null, false)));
+            }
+            users.save(u);
+            throw new UnauthorizedException("Invalid credentials");
+        }
+        u.failedLoginAttempts = 0;
+        u.locked = false;
+        users.save(u);
+        publisher.event(BaseEvent.of(EventType.USER_LOGGED_IN, u.id, "", new LoginPayload(u.id, u.email, null, true)));
+        return tokens(u);
+    }
+
+    public AuthResponse refresh(RefreshRequest r) {
+        RefreshToken t = refresh.findByTokenAndRevokedFalse(r.refreshToken()).orElseThrow(() -> new UnauthorizedException("Invalid refresh token"));
+        if (t.expiresAt.isBefore(Instant.now())) throw new UnauthorizedException("Refresh token expired");
+        UserAccount u = users.findById(t.userId).orElseThrow(() -> new NotFoundException("User not found"));
+        t.revoked = true;
+        refresh.save(t);
+        return tokens(u);
+    }
+
+    public void logout(String token) {
+        refresh.findByTokenAndRevokedFalse(token).ifPresent(t -> {
+            t.revoked = true;
+            refresh.save(t);
+        });
+    }
+
+    public MfaSetupResponse setupMfa(String email, MfaSetupRequest r) {
+        UserAccount u = users.findByEmail(email).orElseThrow(() -> new NotFoundException("User not found"));
+        u.mfaType = r.type();
+        if (r.type() == MfaType.TOTP) {
+            u.totpSecret = Base64.getUrlEncoder().withoutPadding().encodeToString(UUID.randomUUID().toString().getBytes());
+        }
+        users.save(u);
+        publisher.event(BaseEvent.of(EventType.MFA_ENABLED, u.id, "", new MfaPayload(u.id, u.email, r.type().name())));
+        return new MfaSetupResponse(r.type().name(), u.totpSecret, "otpauth://totp/EnterpriseSSO:" + u.email + "?secret=" + u.totpSecret, "MFA setup saved");
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    public void assignRoles(RoleRequest r) {
+        UserAccount u = users.findByEmail(r.email()).orElseThrow(() -> new NotFoundException("User not found"));
+        u.roles = r.roles().stream().map(Role::valueOf).collect(Collectors.toSet());
+        users.save(u);
+        publisher.event(BaseEvent.of(EventType.ROLE_UPDATED, u.id, "", new RoleUpdatedPayload(u.id, u.roles.stream().map(Enum::name).collect(Collectors.toSet()))));
+    }
+
+    private AuthResponse tokens(UserAccount u) {
+        Set<String> roles = u.roles.stream().map(Role::name).collect(Collectors.toSet());
+        String access = jwt.generateAccessToken(u.id, u.email, roles);
+        RefreshToken rt = new RefreshToken();
+        rt.id = UUID.randomUUID().toString();
+        rt.userId = u.id;
+        rt.token = UUID.randomUUID().toString();
+        rt.expiresAt = Instant.now().plus(Duration.ofDays(7));
+        refresh.save(rt);
+        return new AuthResponse(access, rt.token, "Bearer", u.mfaType != MfaType.NONE);
+    }
+}

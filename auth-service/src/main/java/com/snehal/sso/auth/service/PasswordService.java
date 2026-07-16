@@ -1,0 +1,57 @@
+package com.snehal.sso.auth.service;
+
+import com.snehal.sso.auth.domain.UserAccount;
+import com.snehal.sso.auth.repository.UserAccountRepository;
+import com.snehal.sso.events.BaseEvent;
+import com.snehal.sso.events.EventType;
+import com.snehal.sso.events.NotificationCommand;
+import com.snehal.sso.events.PasswordResetPayload;
+import com.snehal.sso.exceptions.BusinessException;
+import com.snehal.sso.exceptions.NotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Map;
+import java.util.UUID;
+
+@Service
+public class PasswordService {
+    private final UserAccountRepository users;
+    private final PasswordEncoder encoder;
+    private final EventPublisher publisher;
+
+    public PasswordService(UserAccountRepository users, PasswordEncoder encoder, EventPublisher publisher) {
+        this.users = users;
+        this.encoder = encoder;
+        this.publisher = publisher;
+    }
+
+    public String requestReset(String email) {
+        UserAccount u = users.findByEmail(email).orElseThrow(() -> new NotFoundException("User not found"));
+        u.passwordResetToken = UUID.randomUUID().toString();
+        u.passwordResetExpiresAt = Instant.now().plus(Duration.ofMinutes(30));
+        users.save(u);
+        publisher.event(BaseEvent.of(EventType.PASSWORD_RESET_REQUESTED, u.id, "", new PasswordResetPayload(u.id, u.email)));
+        publisher.notification(new NotificationCommand(UUID.randomUUID().toString(), "EMAIL", u.email, "password-reset", "Password reset", "Your reset token: " + u.passwordResetToken, ""));
+        return u.passwordResetToken;
+    }
+
+    public void confirm(String token, String password) {
+        UserAccount u = users.findAll().stream().filter(x -> token.equals(x.passwordResetToken)).findFirst().orElseThrow(() -> new NotFoundException("Reset token not found"));
+        if (u.passwordResetExpiresAt.isBefore(Instant.now())) throw new BusinessException("Reset token expired");
+        u.passwordHash = encoder.encode(password);
+        u.passwordResetToken = null;
+        u.passwordResetExpiresAt = null;
+        users.save(u);
+    }
+
+    public void verifyEmail(String token) {
+        UserAccount u = users.findAll().stream().filter(x -> token.equals(x.emailVerificationToken)).findFirst().orElseThrow(() -> new NotFoundException("Verification token not found"));
+        u.emailVerified = true;
+        u.emailVerificationToken = null;
+        users.save(u);
+        publisher.event(BaseEvent.of(EventType.EMAIL_VERIFIED, u.id, "", Map.of("email", u.email)));
+    }
+}

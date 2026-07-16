@@ -1,0 +1,8 @@
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/user-service/src/main/java/com/snehal/sso/user/UserServiceApplication.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/user-service/src/main/java/com/snehal/sso/user/client/AuthServiceClient.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/user-service/src/main/java/com/snehal/sso/user/controller/UserController.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/user-service/src/main/java/com/snehal/sso/user/domain/UserProfile.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/user-service/src/main/java/com/snehal/sso/user/dto/AuthUserSummary.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/user-service/src/main/java/com/snehal/sso/user/dto/ProfileUpdateRequest.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/user-service/src/main/java/com/snehal/sso/user/dto/UserProfileView.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/user-service/src/main/java/com/snehal/sso/user/repo/UserProfileRepository.java

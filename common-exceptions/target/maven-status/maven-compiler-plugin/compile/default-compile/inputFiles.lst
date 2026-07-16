@@ -1,0 +1,4 @@
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/common-exceptions/src/main/java/com/snehal/sso/exceptions/ApiError.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/common-exceptions/src/main/java/com/snehal/sso/exceptions/BusinessException.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/common-exceptions/src/main/java/com/snehal/sso/exceptions/NotFoundException.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/common-exceptions/src/main/java/com/snehal/sso/exceptions/UnauthorizedException.java

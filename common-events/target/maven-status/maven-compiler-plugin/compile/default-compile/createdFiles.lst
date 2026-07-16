@@ -1,0 +1,8 @@
+com/snehal/sso/events/RoleUpdatedPayload.class
+com/snehal/sso/events/MfaPayload.class
+com/snehal/sso/events/LoginPayload.class
+com/snehal/sso/events/EventType.class
+com/snehal/sso/events/UserRegisteredPayload.class
+com/snehal/sso/events/PasswordResetPayload.class
+com/snehal/sso/events/NotificationCommand.class
+com/snehal/sso/events/BaseEvent.class
