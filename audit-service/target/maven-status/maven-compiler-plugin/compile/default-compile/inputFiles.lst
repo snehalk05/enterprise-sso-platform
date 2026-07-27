@@ -2,3 +2,4 @@
 /Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/audit-service/src/main/java/com/snehal/sso/audit/AuditLog.java
 /Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/audit-service/src/main/java/com/snehal/sso/audit/AuditLogRepository.java
 /Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/audit-service/src/main/java/com/snehal/sso/audit/AuditServiceApplication.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/audit-service/src/main/java/com/snehal/sso/audit/config/KafkaConsumerConfig.java

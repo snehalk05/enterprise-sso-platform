@@ -1,2 +1,4 @@
 /Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/notification-service/src/main/java/com/snehal/sso/notification/NotificationListeners.java
 /Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/notification-service/src/main/java/com/snehal/sso/notification/NotificationServiceApplication.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/notification-service/src/main/java/com/snehal/sso/notification/config/MessagingConfig.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/notification-service/src/main/java/com/snehal/sso/notification/service/NotificationProcessor.java

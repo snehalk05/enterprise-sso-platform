@@ -1,6 +1,1 @@
-package com.snehal.sso.auth.dto;
-
-import jakarta.validation.constraints.NotBlank;
-
-public record MfaVerifyRequest(@NotBlank String email, @NotBlank String code) {
-}
+package com.snehal.sso.auth.dto; import jakarta.validation.constraints.NotBlank; public record MfaVerifyRequest(@NotBlank String email,@NotBlank String code){}

@@ -1,2 +1,4 @@
+com/snehal/sso/notification/service/NotificationProcessor.class
+com/snehal/sso/notification/config/MessagingConfig.class
 com/snehal/sso/notification/NotificationServiceApplication.class
 com/snehal/sso/notification/NotificationListeners.class

@@ -2,3 +2,4 @@ com/snehal/sso/audit/AuditLogRepository.class
 com/snehal/sso/audit/AuditLog.class
 com/snehal/sso/audit/AuditListener.class
 com/snehal/sso/audit/AuditServiceApplication.class
+com/snehal/sso/audit/config/KafkaConsumerConfig.class

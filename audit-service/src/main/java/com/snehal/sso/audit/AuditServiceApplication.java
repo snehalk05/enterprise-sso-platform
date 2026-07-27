@@ -1,11 +1,1 @@
-package com.snehal.sso.audit;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
-public class AuditServiceApplication {
-    public static void main(String[] a) {
-        SpringApplication.run(AuditServiceApplication.class, a);
-    }
-}
+package com.snehal.sso.audit; import org.springframework.boot.*; import org.springframework.boot.autoconfigure.*; @SpringBootApplication public class AuditServiceApplication {public static void main(String[]a){SpringApplication.run(AuditServiceApplication.class,a);}}

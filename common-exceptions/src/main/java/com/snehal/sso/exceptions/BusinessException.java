@@ -1,7 +1,2 @@
 package com.snehal.sso.exceptions;
-
-public class BusinessException extends RuntimeException {
-    public BusinessException(String message) {
-        super(message);
-    }
-}
+public class BusinessException extends RuntimeException { public BusinessException(String message) { super(message); } }

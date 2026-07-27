@@ -1,6 +1,1 @@
-package com.snehal.sso.user.dto;
-
-import java.util.Map;
-
-public record ProfileUpdateRequest(String phone, String address, Map<String, String> preferences) {
-}
+package com.snehal.sso.user.dto; import jakarta.validation.constraints.*; import java.util.Map; public record ProfileUpdateRequest(String phone,String address,Map<String,String> preferences){}

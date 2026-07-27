@@ -1,6 +1,1 @@
-package com.snehal.sso.auth.dto;
-
-import jakarta.validation.constraints.NotBlank;
-
-public record VerifyEmailRequest(@NotBlank String token) {
-}
+package com.snehal.sso.auth.dto; import jakarta.validation.constraints.NotBlank; public record VerifyEmailRequest(@NotBlank String token){}

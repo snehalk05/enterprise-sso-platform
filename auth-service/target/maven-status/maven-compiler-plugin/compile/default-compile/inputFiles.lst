@@ -1,6 +1,7 @@
 /Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/auth-service/src/main/java/com/snehal/sso/auth/AuthServiceApplication.java
 /Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/auth-service/src/main/java/com/snehal/sso/auth/config/AppConfig.java
 /Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/auth-service/src/main/java/com/snehal/sso/auth/config/CorrelationIdFilter.java
+/Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/auth-service/src/main/java/com/snehal/sso/auth/config/MessagingConfig.java
 /Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/auth-service/src/main/java/com/snehal/sso/auth/config/SecurityConfig.java
 /Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/auth-service/src/main/java/com/snehal/sso/auth/controller/AuthController.java
 /Users/snehal/Desktop/enterprise-sso-platform-v1-discovery/auth-service/src/main/java/com/snehal/sso/auth/domain/MfaType.java

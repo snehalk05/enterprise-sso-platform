@@ -24,5 +24,6 @@ com/snehal/sso/auth/dto/MfaVerifyRequest.class
 com/snehal/sso/auth/dto/PasswordResetConfirm.class
 com/snehal/sso/auth/repository/UserAccountRepository.class
 com/snehal/sso/auth/dto/MfaSetupResponse.class
+com/snehal/sso/auth/config/MessagingConfig.class
 com/snehal/sso/auth/dto/LoginRequest.class
 com/snehal/sso/auth/service/AuthService.class

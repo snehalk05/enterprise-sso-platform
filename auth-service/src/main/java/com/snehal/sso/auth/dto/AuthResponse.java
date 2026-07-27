@@ -1,4 +1,1 @@
-package com.snehal.sso.auth.dto;
-
-public record AuthResponse(String accessToken, String refreshToken, String tokenType, boolean mfaRequired) {
-}
+package com.snehal.sso.auth.dto; public record AuthResponse(String accessToken,String refreshToken,String tokenType,boolean mfaRequired){}

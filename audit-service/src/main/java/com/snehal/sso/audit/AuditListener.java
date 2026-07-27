@@ -7,10 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuditListener {
     private final AuditLogRepository repo;
-
-    public AuditListener(AuditLogRepository repo) {
-        this.repo = repo;
-    }
+    public AuditListener(AuditLogRepository repo) { this.repo = repo; }
 
     @KafkaListener(topics = "audit-events", groupId = "audit-service")
     public void on(BaseEvent event) {
