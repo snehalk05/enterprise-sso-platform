@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.concurrent.Executor;
 
@@ -54,14 +55,23 @@ public class MessagingConfig {
     }
 
     @Bean
-    Binding notificationBinding(Queue notificationQueue, DirectExchange notificationExchange) {
-        return BindingBuilder.bind(notificationQueue).to(notificationExchange).with(NOTIFICATION_ROUTING_KEY);
+    Binding notificationBinding(
+            @Qualifier("notificationQueue") Queue notificationQueue,
+            @Qualifier("notificationExchange") DirectExchange notificationExchange) {
+
+        return BindingBuilder
+                .bind(notificationQueue)
+                .to(notificationExchange)
+                .with(NOTIFICATION_ROUTING_KEY);
     }
 
     @Bean
-    Binding notificationDeadLetterBinding(Queue notificationDeadLetterQueue,
-                                            DirectExchange notificationDeadLetterExchange) {
-        return BindingBuilder.bind(notificationDeadLetterQueue)
+    Binding notificationDeadLetterBinding(
+            @Qualifier("notificationDeadLetterQueue") Queue notificationDeadLetterQueue,
+            @Qualifier("notificationDeadLetterExchange") DirectExchange notificationDeadLetterExchange) {
+
+        return BindingBuilder
+                .bind(notificationDeadLetterQueue)
                 .to(notificationDeadLetterExchange)
                 .with(NOTIFICATION_DLQ_ROUTING_KEY);
     }
