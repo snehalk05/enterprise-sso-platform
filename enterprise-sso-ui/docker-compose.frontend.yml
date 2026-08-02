@@ -1,0 +1,8 @@
+services:
+  sso-ui:
+    build: ./enterprise-sso-ui
+    depends_on:
+      - api-gateway
+    ports:
+      - "4200:80"
+    restart: unless-stopped
